@@ -1,0 +1,6 @@
+{
+  "appId":"com.swayam.gnfconverter",
+  "appName":"GNF Converter",
+  "webDir":".",
+  "bundledWebRuntime":false
+}
