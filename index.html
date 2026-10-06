@@ -1,9 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><meta name="theme-color" content="#312e81"><meta name="description" content="Greibach Normal Form converter for Theory of Computation."><link rel="manifest" href="manifest.json"><link rel="icon" href="icons/icon-192.svg">
 <title>GNF Converter | Theory of Computation</title>
 
 <style>
@@ -306,7 +305,7 @@ B -> bB | b"></textarea>
 
 </div>
 
-<footer>
+<div class="card"><h2>App</h2><div class="buttons"><button class="convert" id="installBtn" style="display:none;">Install App</button><button class="example" onclick="downloadResult()">Download Result</button></div><div class="info" style="margin-top:12px;">Install this app on Windows, Android, or iPhone using your browser. The converter works offline after the first load.</div></div><footer>
     <p>Greibach Normal Form Converter | Theory of Computation</p>
     <p>Mini Project</p>
 </footer>
@@ -682,6 +681,12 @@ function resetAll() {
 
 </script>
 
-</body>
+<script>
+let deferredInstallPrompt;
+const installBtn=document.getElementById("installBtn");
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;installBtn.style.display="inline-block";});
+installBtn?.addEventListener("click",async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;installBtn.style.display="none";});
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}));
+function downloadResult(){const final=document.getElementById("finalGrammar");if(!final||!final.innerText.trim()){alert("Please convert a grammar first.");return;}const text="Greibach Normal Form Converter\n\nOriginal Grammar:\n"+document.getElementById("originalGrammar").innerText+"\n\nFinal GNF:\n"+final.innerText+"\n\nValidation:\n"+document.getElementById("validation").innerText;const blob=new Blob([text],{type:"text/plain"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="GNF_Result.txt";a.click();URL.revokeObjectURL(a.href);}
+</script></body>
 </html>
-```
